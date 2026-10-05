@@ -43,8 +43,8 @@ Bounce btn = Bounce();
 
 //Ex. 1 millis()
 
-bool estadoLed1 = 1; 
-bool estadoLed2 = 0;
+bool estadoLed1 = LOW; 
+bool estadoLed2 = HIGH;
 
 unsigned long tempoAnterior = 0;
 unsigned long tempoAnterior1 = 0;
@@ -52,8 +52,7 @@ unsigned long tempoAnterior2 = 0;
 //unsigned long intervalo = 1000;
 unsigned long intervalo1 = 500;
 unsigned long intervalo2 = 2000;
-unsigned long intervalo3 = 3000;
-unsigned 
+unsigned long intervalo3 = 3000; 
 
 
 //void setup(){
@@ -127,3 +126,33 @@ unsigned
 //   
 //  }
 //}
+
+void setup(){
+  pinMode(led2, OUTPUT);
+  pinMode(botao, INPUT_PULLUP);
+  btn.attach(botao); 
+
+}
+
+void loop(){
+  unsigned long tempoAtual = millis();
+
+  btn.update();
+
+
+  if (btn.fell()){
+    estadoLed1 = HIGH;
+    digitalWrite(led2, estadoLed1);
+    tempoAnterior = tempoAtual;       
+  }
+
+  if(btn.read() == HIGH && tempoAtual - tempoAnterior >= intervalo3){
+    estadoLed1 = LOW;
+    digitalWrite(led2, estadoLed1);
+
+  }
+
+}  
+  
+
+
