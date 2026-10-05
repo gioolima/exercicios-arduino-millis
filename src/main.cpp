@@ -39,7 +39,8 @@
 
 bool estadoLed1 = 1; 
 bool estadoLed2 = 0;
-unsigned long tempoAnterior = 0;
+unsigned long tempoAnterior1 = 0;
+unsigned long tempoAnterior2 = 0;
 //unsigned long intervalo = 1000;
 unsigned long intervalo1 = 500;
 unsigned long intervalo2 = 2000;
@@ -77,17 +78,17 @@ void setup(){
 void loop(){
   unsigned long tempoAtual = millis();
 
-  if(tempoAtual - tempoAnterior >= intervalo1){
+  if(tempoAtual - tempoAnterior1 >= intervalo1){
 
     estadoLed1 = !estadoLed1;
-    tempoAnterior = tempoAtual;
+    tempoAnterior1 = tempoAtual;
    
   }
 
-  if(tempoAtual - tempoAnterior >= intervalo2){
+  if(tempoAtual - tempoAnterior2 >= intervalo2){
 
     estadoLed2 = !estadoLed2;
-    tempoAnterior = tempoAtual;
+    tempoAnterior2 = tempoAtual;
      
   }
 
