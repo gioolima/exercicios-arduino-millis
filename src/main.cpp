@@ -33,9 +33,9 @@ Bounce btn = Bounce();
 
 
 
-#define led1 2
-#define led2 17
-#define botao 23
+#define led1 17
+#define led2 19
+#define led3 1
 
 
 
@@ -44,15 +44,18 @@ Bounce btn = Bounce();
 //Ex. 1 millis()
 
 bool estadoLed1 = LOW; 
-bool estadoLed2 = HIGH;
-
+bool estadoLed2 = LOW;
+bool estadoLed3 = HIGH;
+int estadoFarol = 0;
 unsigned long tempoAnterior = 0;
 unsigned long tempoAnterior1 = 0;
 unsigned long tempoAnterior2 = 0;
+unsigned long tempoAnterior3 = 0;
 //unsigned long intervalo = 1000;
-unsigned long intervalo1 = 500;
-unsigned long intervalo2 = 2000;
-unsigned long intervalo3 = 3000; 
+unsigned long intervaloVerde = 5000;
+unsigned long intervaloAmarelo = 2000;
+unsigned long intervaloVermelho = 5000; 
+
 
 
 //void setup(){
@@ -127,32 +130,85 @@ unsigned long intervalo3 = 3000;
 //  }
 //}
 
-void setup(){
-  pinMode(led2, OUTPUT);
-  pinMode(botao, INPUT_PULLUP);
-  btn.attach(botao); 
+//void setup(){
+//  pinMode(led2, OUTPUT);
+//  pinMode(botao, INPUT_PULLUP);
+//  btn.attach(botao); 
+//
+//}
+//
+//void loop(){
+//  unsigned long tempoAtual = millis();
+//
+//  btn.update();
+//
+//
+//  if (btn.fell()){
+//    estadoLed1 = HIGH;
+//    digitalWrite(led2, estadoLed1);
+//    tempoAnterior = tempoAtual;       
+//  }
+//
+//  if(btn.read() == HIGH && tempoAtual - tempoAnterior >= intervalo3){
+//    estadoLed1 = LOW;
+//    digitalWrite(led2, estadoLed1);
+//
+//  }
+//
+//}  
 
+//Ex. 5
+
+
+void setup(){
+   
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
 }
 
 void loop(){
   unsigned long tempoAtual = millis();
 
-  btn.update();
+  if(estadoFarol == 0 && tempoAtual - tempoAnterior >= intervaloVerde){
 
-
-  if (btn.fell()){
-    estadoLed1 = HIGH;
-    digitalWrite(led2, estadoLed1);
-    tempoAnterior = tempoAtual;       
+    estadoFarol = 1;
+    tempoAnterior = tempoAtual;
+   
   }
 
-  if(btn.read() == HIGH && tempoAtual - tempoAnterior >= intervalo3){
-    estadoLed1 = LOW;
-    digitalWrite(led2, estadoLed1);
+  if( estadoFarol == 1 && tempoAtual - tempoAnterior >= intervaloAmarelo){
+
+    estadoFarol = 2;
+    tempoAnterior = tempoAtual;
+  }
+
+  if(estadoFarol == 2 && tempoAtual - tempoAnterior >= intervaloVermelho){
+
+    estadoFarol = 0;
+    tempoAnterior = tempoAtual;
+  }
+
+  if(estadoFarol == 0){
+    digitalWrite(led1, HIGH);
+    digitalWrite(led2, LOW);
+    digitalWrite(led3, LOW);
+  }
+
+  if(estadoFarol == 1){
+    digitalWrite(led1, LOW);
+    digitalWrite(led2, HIGH);
+    digitalWrite(led3, LOW);
 
   }
 
-}  
+  if(estadoFarol == 2){
+    digitalWrite(led1, LOW);
+    digitalWrite(led2, LOW);
+    digitalWrite(led3, HIGH);
+
+  }
+
   
 
-
+}
